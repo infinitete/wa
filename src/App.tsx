@@ -2,7 +2,7 @@ import { invoke } from "@tauri-apps/api/core";
 import { Event, listen } from "@tauri-apps/api/event";
 import { getCurrentWindow } from "@tauri-apps/api/window";
 import { moveWindow, Position } from "@tauri-apps/plugin-positioner";
-import { exit, relaunch } from "@tauri-apps/plugin-process";
+import { exit } from "@tauri-apps/plugin-process";
 import { useCallback, useEffect, useState } from "react";
 import "./App.css";
 
@@ -87,23 +87,19 @@ function App() {
     const window = getCurrentWindow();
     const top = true;
     invoke("always_on_top", { window, top });
+    window.setVisibleOnAllWorkspaces(true);
   }, []);
 
   const listenQuitEvent = useCallback(() => {
     window.addEventListener("keydown", (evt) => {
-      if (evt.code == "q") {
+      if (evt.code == "KeyQ") {
         exit(0);
-      }
-
-      if (evt.code == "r") {
-        relaunch();
       }
     });
   }, []);
 
   useEffect(() => {
     moveWindow(Position.BottomCenter);
-
     disableCopy();
     disableContextMenu();
     let r = setupEventListener();
