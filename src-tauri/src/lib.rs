@@ -73,8 +73,7 @@ pub fn run() {
         .plugin(tauri_plugin_process::init())
         .setup(|app| {
             let window = app.get_webview_window("main").unwrap(); // 获取主窗口
-                                                                  // 在应用启动时开始监听键盘事件
-            start_keyboard_listener(window);
+            start_keyboard_listener(window); // 在应用启动时开始监听键盘事件
             Ok(())
         })
         .plugin(tauri_plugin_single_instance::init(|_, _, _| {}))
